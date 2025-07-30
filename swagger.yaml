@@ -1,0 +1,85 @@
+openapi: 3.0.0
+info:
+  title: Flirtini Alcohol API
+  version: 1.0.0
+  description: API for fetching cocktail details
+  contact:
+    name: API Support
+    email: support@example.com
+    url: https://example.com/support
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Drinks
+    description: Operations related to drinks
+paths:
+  /alcohol/drink:
+    get:
+      tags:
+        - Drinks
+      summary: Get drink by ID
+      description: Returns details of a drink specified by its ID.
+      operationId: getDrinkById
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Drink ID
+      responses:
+        '200':
+          description: Drink details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '400':
+          description: Missing drink ID
+        '404':
+          description: Drink not found
+  /alcohol/randomdrink:
+    get:
+      tags:
+        - Drinks
+      summary: Get a random drink
+      description: Returns details of a random drink.
+      operationId: getRandomDrink
+      responses:
+        '200':
+          description: Random drink details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Drink'
+        '500':
+          description: Failed to fetch drinks
+components:
+  schemas:
+    Drink:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        image:
+          type: string
+        category:
+          type: string
+        IBA:
+          type: string
+          nullable: true
+        isAlcoholic:
+          type: string
+        instructions:
+          type: string
+        ingredients:
+          type: array
+          items:
+            type: object
+            properties:
+              ingredient:
+                type: string
+              measure:
+                type: string

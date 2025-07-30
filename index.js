@@ -4,10 +4,6 @@ const port = 3000
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
-
 const alcoholAPIRouter = express.Router();
 app.use('/alcohol', alcoholAPIRouter);
 
@@ -20,9 +16,9 @@ alcoholAPIRouter.get('/drink', (req, res) => {
     fetch("https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + id)
         .then(response => response.json())
         .then(data => {
-            if (!data.drinks || !data.drinks[0]) {
-                return res.status(404).json({ error: 'Drink not found' });
-            }
+                if (!data.drinks || !data.drinks[0]) {
+        return res.status(404).json({ error: 'Drink not found' });
+    }
             const drink = data.drinks[0];
 
             const ingredients = [
