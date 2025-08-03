@@ -3,7 +3,12 @@ const app = express()
 const port = 3000
 const cors = require('cors');
 
-app.use(cors());
+const https = require("https");
+const fs = require("fs");
+const key = fs.readFileSync("./cert.key", "utf-8");
+const cert = fs.readFileSync("./cert.crt","utf-8");
+
+app.use(cors({origin:"*"}));
 
 app.use(express.json());
 
@@ -143,6 +148,8 @@ alcoholAPIRouter.get('/randomdrink', (req, res) => {
         });
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
+// app.listen(port, () => {
+//     console.log(`Example app listening on port ${port}`)
+// })
+
+https.createServer({ key, cert }, app).listen(port);
